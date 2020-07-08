@@ -7,11 +7,19 @@ Questions to answer:
   - Options: steady change or stepwise change
     - Ex: For a decrease of 25% per week, do I want to drop by 25% at the
       beginning of each week or 3.57% per day?
+- If I want a target level (with max and mins) of drug in my blood stream, what
+  is my:
+  - Ideal schedule (i.e. every 7.5 hours)
+  - Realistic schedule (i.e. 3x a day)
+    - Should be logical way of constraining realistic schedule (sleep times,
+      etc)
 
 Features:
 - Scheduling: import/export schedule to text file
   - Simple schedule config file format
   - Export as ical, etc for import into calendar program
+- CSV output
+- Graph output
 - Interactive reminder timer
   - Option to ask what time pill was actually taken, vs what time
     reminder was dismissed, vs assuming if the reminder was dismissed it was
@@ -62,11 +70,23 @@ half-lives considered gone
 
 - Chemical 
   - HalfLife time.Duration
+  - EmptyStomachOK yes/no/doesn't matter
+    - Don't need to implement until scheduling system differentiates between
+      meal times and nonmeal times
 
-- Schedule
+- DrugSchedule
   - Dose
   - BeginTime time.DateTime
   - EndTime time.DateTime
   - Interval/schedule type
     - (see Calendula schedule options)
+
+- PatientRoutine
+  - WakeTime
+  - SleepTime
+  - Meals (includes snacks)
+    - MealTimes
+  - Unavailable
+    - Like sleep times but more flexible for misc other reasons someone
+      predictably can't take a dose (ex. fasting, commute, class)
 
