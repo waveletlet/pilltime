@@ -40,19 +40,32 @@ t = time
 If I know the half life and starting quantity, first need to solve for k:
 
 ````
-y / a = e^kt
-ln(y / a) = kt
-ln(y / a) / t = k
+y / a = e^kh
+ln(y / a) = kh
+ln(y / a) / h = k
 a = starting quantity
-y = starting quantity / 2
-t = half life
+y = half starting quantity = a/2
+h = half life
 ````
 
-In go terms: `k := math.Log(y/a) / t`
+In go terms: `k := math.Log(a/2/a) / h`
+Plug that into: `Y := a * math.Exp(k * t)`
+
+But found a much more straightforward formula for half life:
+Y = a * 2^-(t/h)
+Y := a * math.Exp2(-t/h)
+
 
 
 Need to decide at what value of y is it ~0? Or use rule of thumb: after 5
 half-lives considered gone
+- Test with 25 mg w/ 24h half life: at 5 half lives it's ~0.78 mg. Some people
+  say a dose that small will still affect them, which will also depend on the
+  drug in question and person in question. 10 half-lives is about 1/1000
+  original dose, I'll arbitrarily go with that as a default "0" for cumulative
+  calculations, but have it changeable.
+  - Still have to play with if I want the variable to be in terms of drug
+    quantity (and if that, absolute or relative to original dose), or half lifes
 
 ## Models
 - Dose
