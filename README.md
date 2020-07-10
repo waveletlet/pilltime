@@ -3,10 +3,14 @@
 A drug halflife calculator and eventually dose scheduler. 
 
 Questions to answer:
-- [x]Given a drug and dose schedule, how much is left at time X 
+- Given some drug, how much is left at time T 
+  - [x] After one dose?
+  - [ ] After a series of doses?
   - [ ] And graph it over time 
-- [ ] Tapers: If I decrease/increase the dose by X% per time unit, when will I be
-  down/up to Y dosage?
+- Tapers: if I decrease/increase the dose by X% per time unit 
+  - [ ] When will I be down/up to Y dosage?
+  - [ ] What will my dosage be at time T?
+  - [ ] Generate dose schedule
   - Options: 
     - [ ] steady change 
     - [ ] stepwise change
@@ -18,6 +22,12 @@ Questions to answer:
   - [ ] Realistic schedule (i.e. 3x a day)
     - Should be logical way of constraining realistic schedule (sleep times,
       etc)
+- If I have half a bottle of pills left,
+  - What happens to by blood level if I stretch it out over X time?
+  - When do I need to refill by if I don't want to drop below X blood level?
+
+Note: references to blood levels are massive oversimplifications of how
+pharmacokinetics works and I am neither a pharmacist nor doctor.
 
 Features:
 - [ ] Scheduling: import/export schedule to text file
