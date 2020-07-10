@@ -2,40 +2,43 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"time"
+
+	"gitlab.com/waveletlet/pilltime"
 )
 
-//"gitlab.com/waveletlet/pilltime"
+// Contrived usage example:
+// how much caffeine from this morning is left by bedtime?
+var (
+	drug     = "caffeine"
+	qty      = float64(300) // Super Mega Coffee
+	units    = "mg"
+	halflife = 6 * time.Hour
+	ago      = 16 * time.Hour // You know, one of those normal 16 hour days
+)
+
+// Contrived usage example:
+// how much drug is left after 2 halflives?
+//var (
+//	drug     = "drug"
+//	qty      = float64(20)
+//	units    = "mg"
+//	halflife = 10 * time.Hour
+//	ago      = 2 * halflife
+//)
 
 func main() {
-	// half-life
-	//y = a * 2^-(t/h)
-	a := 450.0
-	h := float64(84)
-	trigger := 0
-	for t := float64(0); t < h*120; t += 5 {
-		y := a * math.Exp2(-t/h)
-		switch {
-		case y < 0.00001 && trigger < 4:
-			fmt.Printf("< 0.00001 at %v:\t\t%v half lives\t\t%v left\n", t, t/h, y)
-			trigger += 1
-			break
-		case y < 0.0001 && trigger < 3:
-			fmt.Printf("< 0.0001 at %v:\t\t%v half lives\t\t%v left\n", t, t/h, y)
-			trigger += 1
-		case y < 0.001 && trigger < 2:
-			fmt.Printf("< 0.001 at %v:\t\t%v half lives\t\t%v left\n", t, t/h, y)
-			trigger += 1
-		case y < 0.01 && trigger < 1:
-			fmt.Printf("< 0.01 at %v:\t\t%v half lives\t\t%v left\n", t, t/h, y)
-			trigger += 1
-		}
-
-		// exponential decay
-		//y = a × e^kt
-		//		k := math.Log(a/2/a) / h
-		//		y2 := a * math.Exp(k*t)
-		//
-		//		fmt.Printf("Expoential:\t%v\t%v\n", y2, k)
+	pill := pilltime.Dose{
+		Dosage: pilltime.Dosage{
+			Qty:   qty,
+			Units: units,
+		},
+		Chemical: &pilltime.Chemical{
+			Name:     drug,
+			HalfLife: halflife,
+		},
 	}
+	pill.ScheduledTime = time.Now().Add(-ago)
+	fmt.Printf("%v %s left of %s.\n", pill.Left(time.Now()), pill.Dosage.Units, pill.Chemical.Name)
+	fmt.Printf("%v half lives since taking it.\n", pill.Halflives(time.Now()))
 }
